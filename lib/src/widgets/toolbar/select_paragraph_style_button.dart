@@ -10,11 +10,15 @@ class SelectParaStyleButton extends StatefulWidget {
   const SelectParaStyleButton({
     required this.controller,
     this.iconSize = kDefaultIconSize,
+    this.fillColor,
+    this.borderColor,
     Key? key,
   }) : super(key: key);
 
   final QuillController controller;
   final double iconSize;
+  final Color? fillColor;
+  final Color? borderColor;
 
   @override
   _SelectParaStyleButtonState createState() => _SelectParaStyleButtonState();
@@ -58,16 +62,18 @@ class _SelectParaStyleButtonState extends State<SelectParaStyleButton> {
     ];
 
     final theme = Theme.of(context);
-    final style = TextStyle(
-      fontWeight: FontWeight.w600,
-      fontSize: widget.iconSize * 0.7,
-    );
 
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: List.generate(3, (index) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.5 : 5.0),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: widget.borderColor ?? Colors.transparent,
+            ),
+            color: widget.fillColor,
+          ),
           child: ConstrainedBox(
             constraints: BoxConstraints.tightFor(
               width: widget.iconSize * kIconButtonFactor,
@@ -82,7 +88,7 @@ class _SelectParaStyleButtonState extends State<SelectParaStyleButton> {
                   borderRadius: BorderRadius.circular(2)),
               fillColor: _valueToText[_value] == _valueIconData[index]
                   ? theme.toggleableActiveColor
-                  : theme.canvasColor,
+                  : Colors.transparent,
               onPressed: () =>
                   widget.controller.formatSelection(_valueAttribute[index]),
               child: Icon(

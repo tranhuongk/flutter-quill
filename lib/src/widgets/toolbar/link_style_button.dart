@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
@@ -10,12 +11,16 @@ class LinkStyleButton extends StatefulWidget {
     required this.controller,
     this.iconSize = kDefaultIconSize,
     this.icon,
+    this.fillColor,
+    this.borderColor,
     Key? key,
   }) : super(key: key);
 
   final QuillController controller;
   final IconData? icon;
   final double iconSize;
+  final Color? fillColor;
+  final Color? borderColor;
 
   @override
   _LinkStyleButtonState createState() => _LinkStyleButtonState();
@@ -52,17 +57,26 @@ class _LinkStyleButtonState extends State<LinkStyleButton> {
     final theme = Theme.of(context);
     final isEnabled = !widget.controller.selection.isCollapsed;
     final pressedHandler = isEnabled ? () => _openLinkDialog(context) : null;
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
-      icon: Icon(
-        widget.icon ?? Icons.link,
-        size: widget.iconSize,
-        color: isEnabled ? theme.iconTheme.color : theme.disabledColor,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.5 : 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: widget.borderColor ?? Colors.transparent,
+        ),
+        color: widget.fillColor,
       ),
-      fillColor: Theme.of(context).canvasColor,
-      onPressed: pressedHandler,
+      child: QuillIconButton(
+        highlightElevation: 0,
+        hoverElevation: 0,
+        size: widget.iconSize * kIconButtonFactor,
+        icon: Icon(
+          widget.icon ?? Icons.link,
+          size: widget.iconSize,
+          color: isEnabled ? theme.iconTheme.color : theme.disabledColor,
+        ),
+        fillColor: Colors.transparent,
+        onPressed: pressedHandler,
+      ),
     );
   }
 

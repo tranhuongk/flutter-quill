@@ -154,9 +154,7 @@ class DefaultStyles {
           decoration: TextDecoration.underline,
         ),
         placeHolder: DefaultTextBlockStyle(
-            defaultTextStyle.style.copyWith(
-              fontSize: 20,
-              height: 1.5,
+            baseStyle.copyWith(
               color: Colors.grey.withOpacity(0.6),
             ),
             const Tuple2(0, 0),

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/documents/attribute.dart';
@@ -13,6 +14,7 @@ class ToggleCheckListButton extends StatefulWidget {
     required this.attribute,
     this.iconSize = kDefaultIconSize,
     this.fillColor,
+    this.borderColor,
     this.childBuilder = defaultToggleStyleButtonBuilder,
     Key? key,
   }) : super(key: key);
@@ -21,6 +23,7 @@ class ToggleCheckListButton extends StatefulWidget {
   final double iconSize;
 
   final Color? fillColor;
+  final Color? borderColor;
 
   final QuillController controller;
 
@@ -85,14 +88,23 @@ class _ToggleCheckListButtonState extends State<ToggleCheckListButton> {
         _selectionStyle.attributes.containsKey(Attribute.codeBlock.key);
     final isEnabled =
         !isInCodeBlock || Attribute.list.key == Attribute.codeBlock.key;
-    return widget.childBuilder(
-      context,
-      Attribute.unchecked,
-      widget.icon,
-      widget.fillColor,
-      _isToggled,
-      isEnabled ? _toggleAttribute : null,
-      widget.iconSize,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.5 : 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: widget.borderColor ?? Colors.transparent,
+        ),
+        color: widget.fillColor,
+      ),
+      child: widget.childBuilder(
+        context,
+        Attribute.unchecked,
+        widget.icon,
+        Colors.transparent,
+        _isToggled,
+        isEnabled ? _toggleAttribute : null,
+        widget.iconSize,
+      ),
     );
   }
 

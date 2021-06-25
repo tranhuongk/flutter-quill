@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../../flutter_quill.dart';
@@ -9,6 +10,8 @@ class HistoryButton extends StatefulWidget {
     required this.controller,
     required this.undo,
     this.iconSize = kDefaultIconSize,
+    this.fillColor,
+    this.borderColor,
     Key? key,
   }) : super(key: key);
 
@@ -16,6 +19,8 @@ class HistoryButton extends StatefulWidget {
   final double iconSize;
   final bool undo;
   final QuillController controller;
+  final Color? fillColor;
+  final Color? borderColor;
 
   @override
   _HistoryButtonState createState() => _HistoryButtonState();
@@ -34,13 +39,22 @@ class _HistoryButtonState extends State<HistoryButton> {
     widget.controller.changes.listen((event) async {
       _setIconColor();
     });
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: widget.iconSize * 1.77,
-      icon: Icon(widget.icon, size: widget.iconSize, color: _iconColor),
-      fillColor: fillColor,
-      onPressed: _changeHistory,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.5 : 5.0),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: widget.borderColor ?? Colors.transparent,
+        ),
+        color: widget.fillColor,
+      ),
+      child: QuillIconButton(
+        highlightElevation: 0,
+        hoverElevation: 0,
+        size: widget.iconSize * 1.77,
+        icon: Icon(widget.icon, size: widget.iconSize, color: _iconColor),
+        fillColor: Colors.transparent,
+        onPressed: _changeHistory,
+      ),
     );
   }
 

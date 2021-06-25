@@ -57,6 +57,9 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
 
   factory QuillToolbar.basic({
     required QuillController controller,
+    Color? backgroudColor,
+    Color? buttonColor,
+    Color? borderColor,
     double toolbarIconSize = kDefaultIconSize,
     bool showBoldButton = true,
     bool showParagraphButton = true,
@@ -103,6 +106,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       key: key,
       toolBarHeight: toolbarIconSize * 2,
       multiRowsDisplay: multiRowsDisplay,
+      color: backgroudColor,
       children: [
         if (showBoldButton)
           ToggleStyleButton(
@@ -110,6 +114,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.format_bold,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showItalicButton)
           ToggleStyleButton(
@@ -117,6 +123,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.format_italic,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showUnderLineButton)
           ToggleStyleButton(
@@ -124,6 +132,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.format_underline,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showStrikeThrough)
           ToggleStyleButton(
@@ -131,6 +141,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.format_strikethrough,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showColorButton)
           ColorButton(
@@ -138,6 +150,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
             background: false,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showBackgroundColorButton)
           ColorButton(
@@ -145,17 +159,23 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
             background: true,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showClearFormat)
           ClearFormatButton(
             icon: Icons.format_clear,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showParagraphButton)
           SelectParaStyleButton(
             controller: controller,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (onImagePickCallback != null)
           ImageButton(
@@ -191,6 +211,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           SelectHeaderStyleButton(
             controller: controller,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (isButtonGroupShown[1] &&
             (isButtonGroupShown[2] ||
@@ -207,6 +229,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             icon: Icons.format_list_numbered,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showListBullets)
           ToggleStyleButton(
@@ -214,6 +238,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             icon: Icons.format_list_bulleted,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showListCheck)
           ToggleCheckListButton(
@@ -221,6 +247,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             icon: Icons.check_box,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showCodeBlock)
           ToggleStyleButton(
@@ -228,6 +256,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             icon: Icons.code,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (isButtonGroupShown[2] &&
             (isButtonGroupShown[3] || isButtonGroupShown[4]))
@@ -242,6 +272,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             controller: controller,
             icon: Icons.format_quote,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showIndent)
           IndentButton(
@@ -249,6 +281,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
             isIncrease: true,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showIndent)
           IndentButton(
@@ -256,6 +290,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
             isIncrease: false,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (isButtonGroupShown[3] && isButtonGroupShown[4])
           VerticalDivider(
@@ -267,18 +303,24 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           LinkStyleButton(
             controller: controller,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showHorizontalRule)
           InsertEmbedButton(
             controller: controller,
             icon: Icons.horizontal_rule,
             iconSize: toolbarIconSize,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
         if (showHistory)
           HistoryButton(
             icon: Icons.undo_outlined,
             iconSize: toolbarIconSize,
             controller: controller,
+            fillColor: buttonColor,
+            borderColor: borderColor,
             undo: true,
           ),
         if (showHistory)
@@ -287,6 +329,8 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             iconSize: toolbarIconSize,
             controller: controller,
             undo: false,
+            fillColor: buttonColor,
+            borderColor: borderColor,
           ),
       ],
     );
@@ -310,18 +354,23 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     if (multiRowsDisplay ?? true) {
-      return SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: children,
-        ),
+      return Wrap(
+        alignment: WrapAlignment.center,
+        runSpacing: 4,
+        spacing: 4,
+        children: children,
       );
     }
     return Container(
       constraints: BoxConstraints.tightFor(height: preferredSize.height),
       color: color ?? Theme.of(context).canvasColor,
-      child: ArrowIndicatedButtonList(buttons: children),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: children,
+        ),
+      ),
     );
   }
 }

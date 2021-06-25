@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -18,9 +19,12 @@ class ColorButton extends StatefulWidget {
     required this.controller,
     required this.background,
     this.iconSize = kDefaultIconSize,
+    this.fillColor,
+    this.borderColor,
     Key? key,
   }) : super(key: key);
-
+  final Color? fillColor;
+  final Color? borderColor;
   final IconData icon;
   final double iconSize;
   final bool background;
@@ -113,16 +117,24 @@ class _ColorButtonState extends State<ColorButton> {
             ? stringToColor('#ffffff')
             : theme.canvasColor;
 
-    return QuillIconButton(
-      highlightElevation: 0,
-      hoverElevation: 0,
-      size: widget.iconSize * kIconButtonFactor,
-      icon: Icon(widget.icon,
-          size: widget.iconSize,
-          color: widget.background ? iconColorBackground : iconColor),
-      fillColor: widget.background ? fillColorBackground : fillColor,
-      onPressed: _showColorPicker,
-    );
+    return Container(
+        margin: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.5 : 5.0),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: widget.borderColor ?? Colors.transparent,
+          ),
+          color: widget.fillColor,
+        ),
+        child: QuillIconButton(
+          highlightElevation: 0,
+          hoverElevation: 0,
+          size: widget.iconSize * kIconButtonFactor,
+          icon: Icon(widget.icon,
+              size: widget.iconSize,
+              color: widget.background ? iconColorBackground : iconColor),
+          fillColor: Colors.transparent,
+          onPressed: _showColorPicker,
+        ));
   }
 
   void _changeColor(BuildContext context, Color color) {
