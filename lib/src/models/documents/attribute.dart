@@ -63,7 +63,7 @@ class Attribute<T> {
 
   static final IndentAttribute indent = IndentAttribute();
 
-  static final AlignAttribute align = AlignAttribute(null);
+  static final AlignAttribute align = AlignAttribute('left');
 
   static final ListAttribute list = ListAttribute(null);
 

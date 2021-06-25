@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../models/documents/attribute.dart';
@@ -15,6 +16,7 @@ import 'toolbar/indent_button.dart';
 import 'toolbar/insert_embed_button.dart';
 import 'toolbar/link_style_button.dart';
 import 'toolbar/select_header_style_button.dart';
+import 'toolbar/select_paragraph_style_button.dart';
 import 'toolbar/toggle_check_list_button.dart';
 import 'toolbar/toggle_style_button.dart';
 
@@ -38,7 +40,7 @@ typedef WebImagePickImpl = Future<String?> Function(
     OnImagePickCallback onImagePickCallback);
 
 // The default size of the icon of a button.
-const double kDefaultIconSize = 18;
+const double kDefaultIconSize = 24;
 
 // The factor of how much larger the button is in relation to the icon.
 const double kIconButtonFactor = 1.77;
@@ -46,7 +48,7 @@ const double kIconButtonFactor = 1.77;
 class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   const QuillToolbar({
     required this.children,
-    this.toolBarHeight = 36,
+    this.toolBarHeight = 40,
     this.color,
     this.filePickImpl,
     this.multiRowsDisplay,
@@ -57,6 +59,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     required QuillController controller,
     double toolbarIconSize = kDefaultIconSize,
     bool showBoldButton = true,
+    bool showParagraphButton = true,
     bool showItalicButton = true,
     bool showUnderLineButton = true,
     bool showStrikeThrough = true,
@@ -82,6 +85,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
     final isButtonGroupShown = [
       showHistory ||
           showBoldButton ||
+          showParagraphButton ||
           showItalicButton ||
           showUnderLineButton ||
           showStrikeThrough ||
@@ -100,20 +104,6 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
       toolBarHeight: toolbarIconSize * 2,
       multiRowsDisplay: multiRowsDisplay,
       children: [
-        if (showHistory)
-          HistoryButton(
-            icon: Icons.undo_outlined,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            undo: true,
-          ),
-        if (showHistory)
-          HistoryButton(
-            icon: Icons.redo_outlined,
-            iconSize: toolbarIconSize,
-            controller: controller,
-            undo: false,
-          ),
         if (showBoldButton)
           ToggleStyleButton(
             attribute: Attribute.bold,
@@ -144,7 +134,7 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
           ),
         if (showColorButton)
           ColorButton(
-            icon: Icons.color_lens,
+            icon: Icons.format_color_text,
             iconSize: toolbarIconSize,
             controller: controller,
             background: false,
@@ -161,6 +151,11 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.format_clear,
             iconSize: toolbarIconSize,
             controller: controller,
+          ),
+        if (showParagraphButton)
+          SelectParaStyleButton(
+            controller: controller,
+            iconSize: toolbarIconSize,
           ),
         if (onImagePickCallback != null)
           ImageButton(
@@ -279,6 +274,20 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
             icon: Icons.horizontal_rule,
             iconSize: toolbarIconSize,
           ),
+        if (showHistory)
+          HistoryButton(
+            icon: Icons.undo_outlined,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            undo: true,
+          ),
+        if (showHistory)
+          HistoryButton(
+            icon: Icons.redo_outlined,
+            iconSize: toolbarIconSize,
+            controller: controller,
+            undo: false,
+          ),
       ],
     );
   }
@@ -301,11 +310,12 @@ class QuillToolbar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     if (multiRowsDisplay ?? true) {
-      return Wrap(
-        alignment: WrapAlignment.center,
-        runSpacing: 4,
-        spacing: 4,
-        children: children,
+      return SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: children,
+        ),
       );
     }
     return Container(

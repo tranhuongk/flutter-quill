@@ -211,6 +211,10 @@ class EditableTextBlock extends StatelessWidget {
       return 16.0 + extraIndent;
     }
 
+    if (attrs.containsKey(Attribute.align.key)) {
+      return extraIndent;
+    }
+
     return 32.0 + extraIndent;
   }
 
